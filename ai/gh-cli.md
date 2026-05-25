@@ -2,8 +2,6 @@
 
 Just the things specific to filing issues against GitHub via `/wg-issue`. The agent already knows `gh`'s general surface.
 
-Unlike `tea` (the Codeberg/Forgejo CLI), `gh` doesn't have the urfave/cli "flags must precede positionals" quirk — argument order is normal. `gh` also exposes first-class subcommands for viewing, editing, and labeling issues, so several workarounds described in `winter-codeberg:/ai/tea-cli.md` aren't needed here.
-
 ## One-time setup
 
 Interactive (the standard path):

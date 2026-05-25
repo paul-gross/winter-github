@@ -56,7 +56,7 @@ gh issue list --repo <target> --state open --limit 1
 
 If this returns `HTTP 401: Bad credentials` → tell the user to run `gh auth login --hostname github.com` and stop.
 
-If this returns `Could not resolve to a Repository` / `HTTP 404` → tell the user the repo doesn't exist on GitHub or they lack access. Ask whether to (a) create it via web UI / `gh repo create` and re-run, (b) change the target repo, or (c) fall back to the Codeberg equivalent via `/wc-issue` if the repo hasn't been migrated yet (see `ai/repo-selection.md#migration-note`).
+If this returns `Could not resolve to a Repository` / `HTTP 404` → tell the user the repo doesn't exist on GitHub or they lack access. Ask whether to (a) create it via web UI / `gh repo create` and re-run, or (b) change the target repo.
 
 If it succeeds (even with zero issues), continue.
 

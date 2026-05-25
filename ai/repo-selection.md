@@ -4,17 +4,13 @@ How `/wg-issue` decides which GitHub repository to file against.
 
 The skill almost always runs from the workspace root, so the working directory's git remote is uninformative (it points at the workspace itself). The real signal is **what the conversation has been about** — which project, command, file, or worktree.
 
-## Migration note
-
-Repos under the `paul-gross/` org on GitHub are being stood up incrementally as part of the move off Codeberg. Not every winter-ecosystem repo has a GitHub counterpart yet — until a repo is migrated, `/wg-issue` will fail at the `gh issue list` access check (Step 2 of the skill). When that happens, surface the missing target to the user and offer to either (a) wait until migration, or (b) fall back to `/wc-issue` against the Codeberg copy.
-
 ## The rule
 
 > **Never file against the workspace repo.** A workspace-named repo (e.g. `paul-gross/winter-workspace`) is a thin configuration layer over winter and is not a valid issue target. Anything that looks workspace-level is really a winter issue or a winter-extension issue — re-route it (see [Re-routing apparent workspace-level issues](#re-routing-apparent-workspace-level-issues) below).
 
 1. **Infer the project from the conversation.**
    - Identify the project the user is filing an issue *about*: the repo whose code, commands, behavior, or files the conversation has been discussing.
-   - Resolve the project's short name to a GitHub `<owner>/<name>` by reading `workspace:/.winter/config.toml`. Match against `[[project_repository]].name`; the matching repo's GitHub slug under `paul-gross/<name>` is authoritative once the repo is migrated. If the config still records the Codeberg URL, the GitHub mirror is `paul-gross/<name>` (one-to-one with the Codeberg repo name).
+   - Resolve the project's short name to a GitHub `<owner>/<name>` by reading `workspace:/.winter/config.toml`. Match against `[[project_repository]].name`; the matching repo's GitHub slug is `paul-gross/<name>`.
    - If nothing in the conversation points to a single project, re-route per [Re-routing apparent workspace-level issues](#re-routing-apparent-workspace-level-issues) — do **not** fall back to the workspace repo.
 2. **Check the inferred repo's `CONTRIBUTING.md` for explicit routing.**
    - Open `CONTRIBUTING.md` at the root of the inferred repo (in whichever worktree has it checked out). If it routes issues elsewhere — "file bugs at `<owner>/<name>`", "use the tracker at <URL>", a `## Issues` section — surface that to the user at confirmation alongside the inferred target.
@@ -31,7 +27,6 @@ In rough order of strength:
 - **Components or commands discussed** — map mention → target repo:
   - `winter` CLI commands (`winter ws *`, `winter repo *`, `winter dashboard`) → `paul-gross/winter`
   - `/wg-issue`, GitHub conventions, issue format → `paul-gross/winter-github`
-  - `/wc-issue`, Codeberg conventions, `tea` cheatsheet → `paul-gross/winter-codeberg` (parallel coexistence during the migration)
   - `/wf-blizzard`, `/wf-thaw`, `/wf-cold-review`, `/wf-harness-review`, `/wf-commit`, blizzard team agents (architect, developer, …) → `paul-gross/winter-workflow`
   - `/wp-refine`, `/wp-todo`, backlog / work-item model → `paul-gross/winter-product`
   - `./up` / `./down` / `./status`, tmux service orchestration, `workflow.sh` → `paul-gross/winter-service-tmux`
