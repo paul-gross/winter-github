@@ -27,7 +27,7 @@ Then run `winter ws init`. The skill becomes available as `/issue`.
   gh auth login --hostname github.com
   ```
 
-Run `winter doctor` to verify — this extension contributes probes for the `gh` binary, the `github.com` auth entry, and `api.github.com` reachability. It's the canonical "is my setup correct?" check before `/issue`.
+Run `winter doctor` to verify your `gh` prerequisites for `/issue` — this extension contributes the probes that check them (see [`ai/gh-cli.md`](./ai/gh-cli.md#one-time-setup)).
 
 ## 🧩 How it works
 

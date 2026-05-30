@@ -20,7 +20,7 @@ echo "<personal-access-token>" | gh auth login --hostname github.com --with-toke
 
 Generate the token at https://github.com/settings/tokens with the `repo` and `read:org` scopes at minimum. Verify with `gh auth status`.
 
-**Verify with `winter doctor`.** This extension contributes probes for the `gh` binary, the `github.com` auth entry, and `api.github.com` reachability — the canonical "is my setup correct?" check before `/issue`. The probe lives at `scripts/doctor.sh` and is registered via `doctor = "scripts/doctor.sh"` in `winter-ext.toml`. Reachability is a `warn`-level probe — a transient network blip won't block `/issue`.
+**Verify with `winter doctor`.** This extension contributes probes that check the `gh` prerequisites for `/issue` — the canonical "is my setup correct?" check before filing. The probes live at `scripts/doctor.sh` (registered via `doctor = "scripts/doctor.sh"` in `winter-ext.toml`), which is their single source of truth; reachability is a `warn`-level probe, so a transient network blip won't block `/issue`.
 
 ## Filing an issue
 
@@ -123,7 +123,7 @@ If `/issue` fails, run `winter doctor` first — the `gh github.com auth` and `a
 
 | Error | Cause | Recovery |
 |-------|-------|----------|
-| `Could not resolve to a Repository` / `HTTP 404` on issue create | Repo doesn't exist or you lack access | Ask user to create it or correct the target. For the winter-ecosystem migration, the repo may not have been moved to GitHub yet — see `ai/repo-selection.md#migration-note`. |
+| `Could not resolve to a Repository` / `HTTP 404` on issue create | Repo doesn't exist or you lack access | Ask user to create it or correct the target. |
 | `'<x>' is not a valid label` | Label not yet defined on the repo | Drop the label and file without it; tell user to add the label after. Prefer bootstrapping the canonical set. |
 | `HTTP 401: Bad credentials` | Token expired or `gh auth login` not set up for `github.com` | Point user at the setup section above. |
 | `HTTP 403: API rate limit exceeded` / `secondary rate limit triggered` | Burst of API calls within a short window | Wait the duration `gh` reports (`Retry-After` header for primary limits; ~60s for secondary). Don't retry blindly. |
