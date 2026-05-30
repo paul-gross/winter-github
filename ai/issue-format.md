@@ -1,6 +1,6 @@
 # Issue Format
 
-Every GitHub issue filed via `/wg-issue` uses this format. The format is opinionated on purpose — agents that pick up an issue later should be able to parse it without prompting.
+Every GitHub issue filed via `/issue` uses this format. The format is opinionated on purpose — agents that pick up an issue later should be able to parse it without prompting.
 
 ## Title
 
