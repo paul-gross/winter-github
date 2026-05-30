@@ -31,11 +31,6 @@ Run `winter doctor` to verify — this extension contributes probes for the `gh`
 
 ## How it works
 
-When you run `/wg-issue <description>`:
-
-1. **Target repo** — picked per [`ai/repo-selection.md`](./ai/repo-selection.md). You confirm before filing.
-2. **Draft body** — generate title and body in the AI-native format using `$ARGUMENTS`, conversation context, and codebase knowledge (file paths, components).
-3. **Confirm** — show the draft, let you tweak title/labels.
-4. **File** — `gh issue create` against the confirmed repo, return the URL.
+`/wg-issue <description>` drafts a complete, format-conforming issue from the current conversation and files it against the repo you confirm, returning the issue URL. The authoritative procedure lives in [`skills/issue/SKILL.md`](./skills/issue/SKILL.md).
 
 See [`index.md`](./index.md) for the full layout and [`ai/issue-format.md`](./ai/issue-format.md) for the format spec — both auto-loaded into every Claude session that runs in a winter workspace with this extension installed.
