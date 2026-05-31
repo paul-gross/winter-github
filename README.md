@@ -2,6 +2,8 @@
 
 A [winter](https://github.com/paul-gross/winter) extension that adds GitHub issue-raising to a winter workspace: a precise, AI-native issue format and a single skill, `/issue`, that drafts and files an issue against the right repo.
 
+📚 **Documentation:** <https://paul-gross.github.io/winter-docs/>
+
 ## ✨ Features
 
 - **AI-native issue format** — YAML metadata block + Context + Current/Desired Behavior + checklist Acceptance Criteria + explicit Out of Scope + code References. Structured enough for an agent to parse; readable enough for humans.
