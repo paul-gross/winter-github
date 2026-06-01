@@ -1,6 +1,5 @@
 ---
 description: Create a GitHub issue. Use when the user is requesting to raise a core winter issue against GitHub.
-model: sonnet
 argument-hint: "<freeform description>"
 allowed-tools: Bash, Read, Write, Edit, Glob, Grep, AskUserQuestion
 ---
