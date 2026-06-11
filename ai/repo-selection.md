@@ -29,7 +29,7 @@ In rough order of strength:
   - `/issue`, GitHub conventions, issue format → `paul-gross/winter-github`
   - `/blizzard`, `/thaw`, `/cold-review`, `/harness-review`, `/commit`, blizzard team agents (architect, developer, …) → `paul-gross/winter-workflow`
   - `/refine`, `/todo`, backlog / work-item model → `paul-gross/winter-product`
-  - `./up` / `./down` / `./status`, tmux service orchestration, `workflow.sh` → `paul-gross/winter-service-tmux`
+  - `./up` / `./down` / `./status`, tmux service orchestration, `setup-tmux.sh` → `paul-gross/winter-service-tmux`
   - Python conventions (DI, repository pattern, error handling), exemplars → `paul-gross/winter-harness`
 - **Workflow position** — if the user just finished work in a worktree, that worktree's project is the most likely target.
 
