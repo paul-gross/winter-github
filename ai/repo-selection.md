@@ -40,7 +40,7 @@ If multiple signals point to different repos, surface the candidates at confirma
 The workspace is never the target. Anything that looks "workspace-level" belongs in winter or in a winter extension. Pick by what the issue is actually about:
 
 - **About how the workspace consumes winter** — CLI behavior, framework convention, `winter ws *` lifecycle, hook contract, `.winter/config.toml` schema → `paul-gross/winter`
-- **About a specific extension's surface** — a skill, agent, convention file, or hook owned by one extension → that extension's repo (`paul-gross/winter-github`, `paul-gross/winter-codeberg`, `paul-gross/winter-workflow`, `paul-gross/winter-product`, `paul-gross/winter-service-tmux`, `paul-gross/winter-harness`)
+- **About a specific extension's surface** — a skill, agent, convention file, or hook owned by one extension → that extension's repo (`paul-gross/winter-github`, `paul-gross/winter-workflow`, `paul-gross/winter-product`, `paul-gross/winter-service-tmux`, `paul-gross/winter-harness`)
 - **Spans multiple winter components without a single owner** — ecosystem-wide docs, cross-extension conventions, framework-level policy → default to `paul-gross/winter`, because winter is the framework that ties the pieces together
 
 ### Examples

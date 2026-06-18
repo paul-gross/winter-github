@@ -90,20 +90,7 @@ Probe which of these exist on the target repo:
 gh label list --repo <target> --limit 200
 ```
 
-If any canonical labels are missing, **offer to bootstrap them**. Use the canonical set from `winter-github:/ai/gh-cli.md#bootstrapping-the-canonical-label-set`. Bootstrap the full canonical set (all 8 labels: 5 types + 3 complexities) in one shot so a fresh repo lands on the reference set, not just the labels this one issue happens to need:
-
-```
-gh label create "type:feature"       --repo <target> --color "0e8a16" --description "New capability"
-gh label create "type:bug"           --repo <target> --color "d73a4a" --description "Something is broken"
-gh label create "type:chore"         --repo <target> --color "cccccc" --description "Maintenance, housekeeping"
-gh label create "type:refactor"      --repo <target> --color "1d76db" --description "Internal restructuring, no behavior change"
-gh label create "type:spike"         --repo <target> --color "5319e7" --description "Time-boxed investigation"
-gh label create "complexity:trivial" --repo <target> --color "ededed" --description "Author estimate: trivial"
-gh label create "complexity:small"   --repo <target> --color "fbca04" --description "Author estimate: small"
-gh label create "complexity:large"   --repo <target> --color "e99695" --description "Author estimate: large"
-```
-
-When some canonical labels already exist on the repo, run `gh label create` only for the missing ones — don't pass `--force` blindly, since that overwrites colors and descriptions on labels the user may have customized.
+If any canonical labels are missing, **offer to bootstrap them**. The full `gh label create` block and the idempotency rules for partially-bootstrapped repos are at `winter-github:/ai/gh-cli.md#bootstrapping-the-canonical-label-set`. Bootstrap the full canonical set (all 8 labels: 5 types + 3 complexities) in one shot so a fresh repo lands on the reference set, not just the labels this one issue happens to need. When some canonical labels already exist on the repo, run `gh label create` only for the missing ones — don't pass `--force` blindly, since that overwrites colors and descriptions on labels the user may have customized.
 
 Ask the user with `AskUserQuestion` whether to (a) bootstrap the missing labels and continue, (b) file without them, or (c) stop. Default to bootstrapping when the user hasn't explicitly opted out — a fresh repo shouldn't make every contributor recreate the canonical set by hand.
 
