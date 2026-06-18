@@ -33,7 +33,7 @@ Run `winter doctor` to verify your `gh` prerequisites for `issue` — this exten
 
 ## 🧩 How it works
 
-`/wg-issue <description>` drafts a complete, format-conforming issue from the current conversation and files it against the repo you confirm, returning the issue URL. The authoritative procedure lives in [`skills/issue/SKILL.md`](./skills/issue/SKILL.md).
+`issue` drafts a complete, format-conforming issue from the current conversation and files it against the repo you confirm, returning the issue URL. The authoritative procedure lives in [`skills/issue/SKILL.md`](./skills/issue/SKILL.md).
 
 See [`index.md`](./index.md) for the full layout and [`ai/issue-format.md`](./ai/issue-format.md) for the format spec — both auto-loaded into every Claude session that runs in a winter workspace with this extension installed.
 
