@@ -91,6 +91,48 @@ gh issue edit <N> --repo <owner>/<name> --body-file /tmp/new-body.md
 
 Confirm with the user before mutating an existing issue.
 
+## Comment processing and reactions
+
+Used by the `refine` skill in Mode 2 to enumerate comments, check idempotency, and mark processed comments.
+
+**Resolve running identity** — call once at the start of Mode 2; reuse the result throughout:
+
+```
+gh api user --jq .login
+```
+
+Returns the authenticated user's login (e.g. `octocat`).
+
+**Enumerate comments** — paginate so large threads are never truncated:
+
+```
+gh api repos/<owner>/<name>/issues/<N>/comments --paginate
+```
+
+Returns a JSON array; each element has `id`, `body`, and `user.login`.
+
+**Read a comment's reactions** — use `--paginate` so a comment with many reactions is never truncated (idempotency in T7 depends on this check being complete):
+
+```
+gh api repos/<owner>/<name>/issues/comments/<comment-id>/reactions --paginate
+```
+
+A comment is already processed when the array contains an entry where `content == "eyes"` AND `user.login` matches the running identity. A different user's `:eyes:` does NOT count.
+
+**Add the `:eyes:` reaction** — the plain form works without any preview Accept-header:
+
+```
+gh api repos/<owner>/<name>/issues/comments/<comment-id>/reactions -f content=eyes
+```
+
+Apply this after every processed comment (including injection-refused ones) to ensure idempotency across re-runs.
+
+**Delete a comment** (cleanup / test teardown only — not part of normal Mode 2 flow):
+
+```
+gh api -X DELETE repos/<owner>/<name>/issues/comments/<comment-id>
+```
+
 ## GitHub-API fallback
 
 For anything `gh` doesn't expose directly — bulk operations, advanced project-board queries, repo settings the CLI hasn't caught up to — use `gh api` with the same auth context. No separate token plumbing required.
