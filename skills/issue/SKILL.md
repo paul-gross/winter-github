@@ -12,9 +12,9 @@ Read `winter-github:/ai/issue-format.md` for the format spec, `winter-github:/ai
 
 Parse `$ARGUMENTS` as a freeform description of the issue. Examples:
 
-- `/issue Add winter ws checkout that resets a worktree to a remote branch`
-- `/issue Bug: ws connect silently fails when the remote branch doesn't exist yet`
-- `/issue Spike — evaluate switching the workflow extension to a per-repo install model`
+- `Add winter ws checkout that resets a worktree to a remote branch`
+- `Bug: ws connect silently fails when the remote branch doesn't exist yet`
+- `Spike — evaluate switching the workflow extension to a per-repo install model`
 
 If `$ARGUMENTS` is empty, ask the user for the description before proceeding.
 

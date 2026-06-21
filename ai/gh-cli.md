@@ -1,6 +1,6 @@
 # GH CLI Notes
 
-Just the things specific to filing issues against GitHub via `/issue`. The agent already knows `gh`'s general surface.
+Just the things specific to filing issues against GitHub via the `issue` skill. The agent already knows `gh`'s general surface.
 
 ## One-time setup
 
@@ -20,7 +20,7 @@ echo "<personal-access-token>" | gh auth login --hostname github.com --with-toke
 
 Generate the token at https://github.com/settings/tokens with the `repo` and `read:org` scopes at minimum. Verify with `gh auth status`.
 
-**Verify with `winter doctor`.** This extension contributes probes that check the `gh` prerequisites for `/issue` — the canonical "is my setup correct?" check before filing. The probes live at `scripts/doctor.sh` (registered via `doctor = "scripts/doctor.sh"` in `winter-ext.toml`), which is their single source of truth; reachability is a `warn`-level probe, so a transient network blip won't block `/issue`.
+**Verify with `winter doctor`.** This extension contributes probes that check the `gh` prerequisites for the `issue` skill — the canonical "is my setup correct?" check before filing. The probes live at `scripts/doctor.sh` (registered via `doctor = "scripts/doctor.sh"` in `winter-ext.toml`), which is their single source of truth; reachability is a `warn`-level probe, so a transient network blip won't block the `issue` skill.
 
 ## Filing an issue
 
@@ -119,7 +119,7 @@ Confirm with the user before any mutation through the API fallback.
 
 ## GitHub-specific failure modes
 
-If `/issue` fails, run `winter doctor` first — the `gh github.com auth` and `api.github.com reachable` probes catch standing prerequisite breakage. The table below covers failures that only surface at file-time (token expired mid-session, secondary rate limits, label-set drift, repo doesn't exist).
+If the `issue` skill fails, run `winter doctor` first — the `gh github.com auth` and `api.github.com reachable` probes catch standing prerequisite breakage. The table below covers failures that only surface at file-time (token expired mid-session, secondary rate limits, label-set drift, repo doesn't exist).
 
 | Error | Cause | Recovery |
 |-------|-------|----------|

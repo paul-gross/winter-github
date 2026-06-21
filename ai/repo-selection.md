@@ -1,6 +1,6 @@
 # Repo Selection
 
-How `/issue` decides which GitHub repository to file against.
+How the `issue` skill decides which GitHub repository to file against.
 
 The skill almost always runs from the workspace root, so the working directory's git remote is uninformative (it points at the workspace itself). The real signal is **what the conversation has been about** — which project, command, file, or worktree.
 
@@ -26,9 +26,9 @@ In rough order of strength:
 - **Repo names mentioned by name** — "the winter-github extension", "winter-cli's connect command".
 - **Components or commands discussed** — map mention → target repo:
   - `winter` CLI commands (`winter ws *`, `winter repo *`, `winter dashboard`) → `paul-gross/winter`
-  - `/issue`, GitHub conventions, issue format → `paul-gross/winter-github`
-  - `/blizzard`, `/thaw`, `/cold-review`, `/harness-review`, `/commit`, blizzard team agents (architect, developer, …) → `paul-gross/winter-workflow`
-  - `/refine`, `/todo`, backlog / work-item model → `paul-gross/winter-product`
+  - `issue` skill, GitHub conventions, issue format → `paul-gross/winter-github`
+  - `blizzard`, `thaw`, `cold-review`, `harness-review`, `commit`, blizzard team agents (architect, developer, …) → `paul-gross/winter-workflow`
+  - `refine`, `todo`, backlog / work-item model → `paul-gross/winter-product`
   - `./up` / `./down` / `./status`, tmux service orchestration, `setup-tmux.sh` → `paul-gross/winter-service-tmux`
   - Python conventions (DI, repository pattern, error handling), exemplars → `paul-gross/winter-harness`
 - **Workflow position** — if the user just finished work in a worktree, that worktree's project is the most likely target.
@@ -47,7 +47,7 @@ The workspace is never the target. Anything that looks "workspace-level" belongs
 
 - "The workspace-level `CLAUDE.md` should describe X" → re-routes to `paul-gross/winter` (the framework owns the workspace `CLAUDE.md` template and conventions, not a separate workspace project).
 - "Our Python conventions need a new section on Y" → re-routes to `paul-gross/winter-harness` (the conventions repo owns Python guidance).
-- "The `/issue` skill should also do Z" → re-routes to `paul-gross/winter-github` (the extension owning the skill).
+- "The `issue` skill should also do Z" → re-routes to `paul-gross/winter-github` (the extension owning the skill).
 - "We need a routing rule for cross-cutting documentation spikes" → re-routes to `paul-gross/winter` (cross-cutting framework rule with no single extension owner).
 
 ## Override

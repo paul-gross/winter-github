@@ -9,7 +9,7 @@ Conventions for raising GitHub issues from a winter workspace. See [`../index.md
 | [Issue Format](./issue-format.md) | Drafting an issue body; reviewing an issue someone else wrote |
 | [Repo Selection](./repo-selection.md) | Deciding which GitHub repository an issue belongs to |
 | [GH CLI Cheatsheet](./gh-cli.md) | Filing, listing, or viewing issues from the command line |
-| [Injection Tests](./injection-tests.md) | Manually exercising the `/issue` Safety guard after touching `skills/issue/SKILL.md` |
+| [Injection Tests](./injection-tests.md) | Manually exercising the `issue` Safety guard after touching `skills/issue/SKILL.md` |
 
 ## Principle
 
