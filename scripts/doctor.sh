@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Doctor probes for winter-github — diagnose gh CLI prerequisites for issue.
-# Contract: workspace:/ai/winter-cli/setup.md#extension-doctor-probes
+# Contract: workspace:/ai/winter-cli/configuration/doctor.md#extension-doctor-probes
 set -u
 
 emit() {
