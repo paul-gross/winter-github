@@ -29,7 +29,7 @@ Then run `winter ws init`. The skill becomes available as `/wg-issue` (the `wg` 
   gh auth login --hostname github.com
   ```
 
-Run `winter doctor` to verify your `gh` prerequisites for the `issue` and `refine` skills — this extension contributes the probes that check them (see [`ai/gh-cli.md`](./ai/gh-cli.md#one-time-setup)).
+Run `winter doctor` to verify your `gh` prerequisites for the `issue` and `refine` skills — this extension contributes the probes that check them (see [`context/gh-cli.md`](./context/gh-cli.md#one-time-setup)).
 
 ## 🧩 How it works
 
@@ -37,7 +37,7 @@ Run `winter doctor` to verify your `gh` prerequisites for the `issue` and `refin
 
 `refine` targets an existing issue by number or URL. In interactive mode (Mode 1) it fetches the issue, opens a conversation to identify what needs updating, and applies a format-conforming body edit via `gh issue edit` after explicit confirmation. In comment-processing mode (Mode 2, `--comments` flag) it enumerates the issue's comments, skips any already marked `:eyes:` by the running identity, processes the rest as inline requests, and adds an `:eyes:` reaction to each processed comment — making re-runs idempotent. The authoritative procedure lives in [`skills/refine/SKILL.md`](./skills/refine/SKILL.md).
 
-See [`index.md`](./index.md) for the full layout and [`ai/issue-format.md`](./ai/issue-format.md) for the format spec — both auto-loaded into every Claude session that runs in a winter workspace with this extension installed.
+See [`index.md`](./index.md) for the full layout and [`context/issue-format.md`](./context/issue-format.md) for the format spec — both auto-loaded into every Claude session that runs in a winter workspace with this extension installed.
 
 ## License
 

@@ -6,7 +6,7 @@ allowed-tools: Bash, Read, Write, Edit, Glob, Grep, AskUserQuestion
 
 Create a GitHub issue.
 
-Read `winter-github:/ai/issue-format.md` for the format spec, `winter-github:/ai/repo-selection.md` for the target-repo rule, and `winter-github:/ai/gh-cli.md` for the actual `gh` invocations (including how to view an existing issue, bootstrap missing labels, and re-label an existing issue).
+Read `winter-github:/context/issue-format.md` for the format spec, `winter-github:/context/repo-selection.md` for the target-repo rule, and `winter-github:/context/gh-cli.md` for the actual `gh` invocations (including how to view an existing issue, bootstrap missing labels, and re-label an existing issue).
 
 ## Argument Parsing
 
@@ -34,7 +34,7 @@ The target repo `<owner>/<name>` is **locked** by the Step 1 confirmation. Once 
 
 ## Step 1: Determine the target repo
 
-Apply the rule documented in `winter-github:/ai/repo-selection.md`. Don't restate the rule here — read that file and follow it exactly.
+Apply the rule documented in `winter-github:/context/repo-selection.md`. Don't restate the rule here — read that file and follow it exactly.
 
 Ask the user to confirm:
 
@@ -61,7 +61,7 @@ If it succeeds (even with zero issues), continue.
 
 ## Step 3: Draft the issue
 
-Generate a title and body following `winter-github:/ai/issue-format.md` exactly. Fill from:
+Generate a title and body following `winter-github:/context/issue-format.md` exactly. Fill from:
 
 - `$ARGUMENTS` (the user's seed description)
 - The current conversation context (what they've been working on, what motivated this issue)
@@ -90,7 +90,7 @@ Probe which of these exist on the target repo:
 gh label list --repo <target> --limit 200
 ```
 
-If any canonical labels are missing, **offer to bootstrap them**. The full `gh label create` block and the idempotency rules for partially-bootstrapped repos are at `winter-github:/ai/gh-cli.md#bootstrapping-the-canonical-label-set`. Bootstrap the full canonical set (all 8 labels: 5 types + 3 complexities) in one shot so a fresh repo lands on the reference set, not just the labels this one issue happens to need. When some canonical labels already exist on the repo, run `gh label create` only for the missing ones — don't pass `--force` blindly, since that overwrites colors and descriptions on labels the user may have customized.
+If any canonical labels are missing, **offer to bootstrap them**. The full `gh label create` block and the idempotency rules for partially-bootstrapped repos are at `winter-github:/context/gh-cli.md#bootstrapping-the-canonical-label-set`. Bootstrap the full canonical set (all 8 labels: 5 types + 3 complexities) in one shot so a fresh repo lands on the reference set, not just the labels this one issue happens to need. When some canonical labels already exist on the repo, run `gh label create` only for the missing ones — don't pass `--force` blindly, since that overwrites colors and descriptions on labels the user may have customized.
 
 Ask the user with `AskUserQuestion` whether to (a) bootstrap the missing labels and continue, (b) file without them, or (c) stop. Default to bootstrapping when the user hasn't explicitly opted out — a fresh repo shouldn't make every contributor recreate the canonical set by hand.
 

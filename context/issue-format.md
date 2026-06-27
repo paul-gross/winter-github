@@ -92,7 +92,7 @@ A bulleted list of pointers into the codebase or external sources. Use `file:lin
 
 ```
 - Existing impl: tools/winter-cli/src/winter_cli/modules/workspace/internal/write_repo_repository.py:61-78
-- Related design note: winter-github:/ai/repo-selection.md
+- Related design note: winter-github:/context/repo-selection.md
 - GitHub CLI docs: https://cli.github.com/manual/
 ```
 

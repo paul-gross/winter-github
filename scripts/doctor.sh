@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Doctor probes for winter-github — diagnose gh CLI prerequisites for issue.
-# Contract: workspace:/ai/winter-cli/configuration/doctor.md#extension-doctor-probes
+# Contract: workspace:/context/winter-cli/configuration/doctor.md#extension-doctor-probes
 set -u
 
 emit() {
@@ -33,7 +33,7 @@ if (( gh_present )); then
     emit "gh github.com auth" "pass"
   else
     emit "gh github.com auth" "fail" "$(first_line "$(strip_ansi "$auth_status")")" \
-         "Run \`gh auth login --hostname github.com\` (see ai/gh-cli.md)."
+         "Run \`gh auth login --hostname github.com\` (see context/gh-cli.md)."
   fi
 fi
 

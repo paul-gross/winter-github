@@ -54,7 +54,7 @@ Use `--json` for any multi-line body — the default human renderer wraps and re
 
 ## Bootstrapping the canonical label set
 
-`workspace:/ai/github.md` is the **single source of truth** for both label names and hex colors. The block below is a mirror — when it drifts from the workspace table, the workspace wins. Do not fork colors here or in any other extension doc.
+`workspace:/context/github.md` is the **single source of truth** for both label names and hex colors. The block below is a mirror — when it drifts from the workspace table, the workspace wins. Do not fork colors here or in any other extension doc.
 
 When `gh issue create` rejects a label as undefined, **offer to create the full canonical set** rather than silently dropping. All eight labels in one block so a fresh repo lands on the canonical set in one shot:
 
