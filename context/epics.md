@@ -62,7 +62,7 @@ related: []
 
 The parent carries the `type:epic` label and **no other `type:` label** — `epic` replaces the type slot rather than stacking on it. Children carry their own `type:` label as normal; they do **not** carry `type:epic`.
 
-`type:epic` is part of the canonical label set. Color and description live in `workspace:/context/github.md` (the single source of truth) and are mirrored in the bootstrap block at [`gh-cli.md`](./gh-cli.md#bootstrapping-the-canonical-label-set).
+`type:epic` is part of the canonical label set. Color and description live in `workspace:/context/github.md` (the single source of truth).
 
 ## Parent / child sub-issue link
 

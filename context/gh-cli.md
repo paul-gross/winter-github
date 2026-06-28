@@ -54,20 +54,13 @@ Use `--json` for any multi-line body — the default human renderer wraps and re
 
 ## Bootstrapping the canonical label set
 
-`workspace:/context/github.md` is the **single source of truth** for both label names and hex colors. The block below is a mirror — when it drifts from the workspace table, the workspace wins. Do not fork colors here or in any other extension doc.
+`workspace:/context/github.md` is the **single source of truth** for the canonical label inventory — names, hex colors, and descriptions. Read the names/colors/descriptions from there; do not fork them here or in any other extension doc.
 
-When `gh issue create` rejects a label as undefined, **offer to create the full canonical set** rather than silently dropping. All nine labels in one block so a fresh repo lands on the canonical set in one shot:
+When `gh issue create` rejects a label as undefined, **offer to create the full canonical set** rather than silently dropping. The `gh label create` shape, applied once per label from the workspace inventory:
 
+<!-- winter-lint:example -->
 ```
-gh label create "type:feature"       --repo <owner>/<name> --color "0e8a16" --description "New capability"
-gh label create "type:bug"           --repo <owner>/<name> --color "d73a4a" --description "Something is broken"
-gh label create "type:chore"         --repo <owner>/<name> --color "cccccc" --description "Maintenance, housekeeping"
-gh label create "type:refactor"      --repo <owner>/<name> --color "1d76db" --description "Internal restructuring, no behavior change"
-gh label create "type:spike"         --repo <owner>/<name> --color "5319e7" --description "Time-boxed investigation"
-gh label create "type:epic"          --repo <owner>/<name> --color "c77dff" --description "Parent of a set of child issues"
-gh label create "complexity:trivial" --repo <owner>/<name> --color "ededed" --description "Author estimate: trivial"
-gh label create "complexity:small"   --repo <owner>/<name> --color "fbca04" --description "Author estimate: small"
-gh label create "complexity:large"   --repo <owner>/<name> --color "e99695" --description "Author estimate: large"
+gh label create "<name>" --repo <owner>/<name> --color "<hex>" --description "<description>"
 ```
 
 `gh label create` is idempotent only when `--force` is passed — without it, a second run fails with `label already exists`. When bootstrapping into a repo that already has *some* of the canonical labels, prefer creating the missing ones one-by-one rather than blasting the full block with `--force` (which would overwrite colors and descriptions on labels the user may have customized).

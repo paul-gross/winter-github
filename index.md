@@ -8,8 +8,8 @@ Files in this extension are addressed with the `winter-github:` prefix — for e
 
 ## Skills and conventions
 
-| Topic | Where to read |
-|-------|---------------|
-| `issue` skill — draft and file a new issue | [`skills/issue/SKILL.md`](./skills/issue/SKILL.md) |
-| `refine` skill — update or process comments on an existing issue | [`skills/refine/SKILL.md`](./skills/refine/SKILL.md) |
-| Issue format, repo selection, gh-cli cheatsheet | [context/index.md](./context/index.md) |
+| Topic | Read when… |
+|-------|------------|
+| [`issue` skill](./skills/issue/SKILL.md) | …you need to draft and file a new issue |
+| [`refine` skill](./skills/refine/SKILL.md) | …you need to update or process comments on an existing issue |
+| [Issue conventions hub](./context/index.md) | …you need the issue-writing conventions — format, repo selection, epics, gh-cli, injection tests |
