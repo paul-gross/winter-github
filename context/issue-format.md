@@ -7,6 +7,7 @@ Every GitHub issue filed via the `issue` skill uses this format. The format is o
 - Imperative mood, one line, no period.
 - Lead with the change, not the symptom: `Add winter ws checkout subcommand`, not `Worktrees can't adopt remote branches`.
 - For bugs, prefix with `Bug:` — e.g. `Bug: ws connect silently fails on missing remote ref`.
+- For epics and their children, prefix the title with `[EPIC]` / `[<TAG>]` — see [epics.md](./epics.md). The bracket prefix does not count against the length target.
 - Under 70 characters when possible. Detail belongs in the body.
 
 ## Body
@@ -19,9 +20,11 @@ A fenced `yaml` block at the very top. Keys:
 
 | Key | Values | Notes |
 |-----|--------|-------|
-| `type` | `feature`, `bug`, `chore`, `refactor`, `spike` | One value. |
+| `type` | `feature`, `bug`, `chore`, `refactor`, `spike`, `epic` | One value. `epic` — see [epics.md](./epics.md). |
 | `complexity` | `trivial`, `small`, `large` | Author's estimate. Not a contract. |
 | `related` | list of issue URLs or `#NN` refs | Optional. Prior or blocking issues. |
+| `epic_tag` | all-caps token | Epics only — see [epics.md](./epics.md). |
+| `epic` | bare `#NN` ref | Children of an epic only — see [epics.md](./epics.md). |
 
 Example:
 
@@ -100,8 +103,10 @@ A bulleted list of pointers into the codebase or external sources. Use `file:lin
 
 Apply labels that correspond to the metadata block when filing. Standard label set:
 
-- **Type:** `type:feature`, `type:bug`, `type:chore`, `type:refactor`, `type:spike`
+- **Type:** `type:feature`, `type:bug`, `type:chore`, `type:refactor`, `type:spike`, `type:epic`
 - **Complexity:** `complexity:trivial`, `complexity:small`, `complexity:large`
+
+`type:epic` marks an epic parent — see [epics.md](./epics.md).
 
 Don't fabricate labels that don't exist on the target repo. If a label is missing, file the issue without it and let the user create the label after — or bootstrap the canonical set per [`gh-cli.md`](./gh-cli.md#bootstrapping-the-canonical-label-set).
 

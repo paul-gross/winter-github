@@ -36,7 +36,7 @@ gh issue create \
 
 Labels must already exist on the target repo. `gh issue create --label` rejects any label that isn't defined. **Prefer bootstrapping** the canonical workspace label set when a label is missing rather than silently dropping it (see *Bootstrapping the canonical label set* below). Fall back to dropping the label only if the user declines.
 
-`gh issue create` returns the issue URL on stdout — capture it for the Step 6 report.
+`gh issue create` returns the issue URL on stdout — capture it for the Step 7 report.
 
 ## Viewing an existing issue
 
@@ -56,7 +56,7 @@ Use `--json` for any multi-line body — the default human renderer wraps and re
 
 `workspace:/context/github.md` is the **single source of truth** for both label names and hex colors. The block below is a mirror — when it drifts from the workspace table, the workspace wins. Do not fork colors here or in any other extension doc.
 
-When `gh issue create` rejects a label as undefined, **offer to create the full canonical set** rather than silently dropping. All eight labels in one block so a fresh repo lands on the canonical set in one shot:
+When `gh issue create` rejects a label as undefined, **offer to create the full canonical set** rather than silently dropping. All nine labels in one block so a fresh repo lands on the canonical set in one shot:
 
 ```
 gh label create "type:feature"       --repo <owner>/<name> --color "0e8a16" --description "New capability"
@@ -64,6 +64,7 @@ gh label create "type:bug"           --repo <owner>/<name> --color "d73a4a" --de
 gh label create "type:chore"         --repo <owner>/<name> --color "cccccc" --description "Maintenance, housekeeping"
 gh label create "type:refactor"      --repo <owner>/<name> --color "1d76db" --description "Internal restructuring, no behavior change"
 gh label create "type:spike"         --repo <owner>/<name> --color "5319e7" --description "Time-boxed investigation"
+gh label create "type:epic"          --repo <owner>/<name> --color "c77dff" --description "Parent of a set of child issues"
 gh label create "complexity:trivial" --repo <owner>/<name> --color "ededed" --description "Author estimate: trivial"
 gh label create "complexity:small"   --repo <owner>/<name> --color "fbca04" --description "Author estimate: small"
 gh label create "complexity:large"   --repo <owner>/<name> --color "e99695" --description "Author estimate: large"
@@ -90,6 +91,37 @@ gh issue edit <N> --repo <owner>/<name> --body-file /tmp/new-body.md
 ```
 
 Confirm with the user before mutating an existing issue.
+
+## Sub-issues (epic parent/child links)
+
+GitHub's sub-issues feature makes an epic the **parent issue** of each child. This `gh` version (2.45) has no native `sub-issue` subcommand, so drive it through the REST API. The epic convention is at [`epics.md`](./epics.md).
+
+The link is keyed by the child's **REST database `id`**, not its issue number. Resolve it first:
+
+```
+# child's REST database id (an integer) — NOT the issue number, NOT the GraphQL node id
+gh api repos/<owner>/<name>/issues/<child-N> --jq .id
+```
+
+**Link a child under an epic** — the `sub_issue_id` field must be a typed integer, so pass it with `-F` (not `-f`, which would send a string and fail `422 not of type integer`):
+
+```
+gh api -X POST repos/<owner>/<name>/issues/<epic-N>/sub_issues -F sub_issue_id=<child-rest-id>
+```
+
+**List an epic's children:**
+
+```
+gh api repos/<owner>/<name>/issues/<epic-N>/sub_issues --jq '.[] | {number, title}'
+```
+
+**Unlink a child:**
+
+```
+gh api -X DELETE repos/<owner>/<name>/issues/<epic-N>/sub_issue -F sub_issue_id=<child-rest-id>
+```
+
+Both endpoints operate within a single repository — a sub-issue link cannot cross repos, which is why an epic and its children share one repo (see [epics.md](./epics.md)). Confirm with the user before linking or unlinking. A child may have at most one parent; linking a child that already has a different parent moves it.
 
 ## Comment processing and reactions
 
