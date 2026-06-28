@@ -1,5 +1,5 @@
 ---
-description: Refine an existing GitHub issue. Use when the user wants to update an issue's body, labels, or title — either interactively or by processing inline comment requests.
+description: Update an existing GitHub issue's body, labels, or title — interactively or from inline comment requests. Use when refining an issue.
 argument-hint: "<issue-number-or-url> [--comments]"
 allowed-tools: Bash, Read, Write, Edit, Grep, AskUserQuestion
 ---
