@@ -24,13 +24,9 @@ In rough order of strength:
 
 - **File paths in the conversation** — edits or reads in `alpha/winter-github/`, `beta/winter-product/`, or `.winter/ext/<name>/` map directly to the corresponding project.
 - **Repo names mentioned by name** — "the winter-github extension", "winter-cli's connect command".
-- **Components or commands discussed** — map mention → target repo:
-  - `winter` CLI commands (`winter ws *`, `winter repo *`, `winter dashboard`) → `paul-gross/winter`
-  - `issue` skill, GitHub conventions, issue format → `paul-gross/winter-github`
-  - `glacier`, `snowball`, `cold-review`, `harness-review`, `commit`, the role-pure agents (winter-architect, ice-carver, …) → `paul-gross/winter-workflow`
-  - `refine`, `todo`, backlog / work-item model → `paul-gross/winter-product`
-  - `./up` / `./down` / `./status`, tmux service orchestration, `setup-tmux.sh` → `paul-gross/winter-service-tmux`
-  - Python conventions (DI, repository pattern, error handling), exemplars → `paul-gross/winter-harness`
+- **Components or commands discussed:**
+  - If the issue is about winter itself — the CLI, framework, or workspace behavior — target `paul-gross/winter`.
+  - Otherwise, use your judgment to identify the repository that owns the behavior described in the conversation.
 - **Workflow position** — if the user just finished work in a worktree, that worktree's project is the most likely target.
 
 If multiple signals point to different repos, surface the candidates at confirmation rather than picking blindly.
