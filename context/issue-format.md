@@ -91,10 +91,11 @@ Skip this section when the scope is genuinely tight and unambiguous.
 
 ### 7. References
 
-A bulleted list of pointers into the codebase or external sources. Use `file:line` format for code references — the same notation the agent uses to navigate.
+A bulleted list of pointers into the codebase or external sources. Use `file::symbol` format for code references — symbols survive edits that shift line numbers, so the pointer still resolves when an agent picks the issue up later. Fall back to `file:line` only where there is no addressable symbol: YAML, TOML and other config files, or a markdown section.
 
 ```
-- Existing impl: tools/winter-cli/src/winter_cli/modules/workspace/internal/write_repo_repository.py:61-78
+- Existing impl: tools/winter-cli/src/winter_cli/modules/workspace/internal/write_repo_repository.py::push_branch
+- Port band config: .winter/config.toml:11
 - Related design note: winter-github:/context/repo-selection.md
 - GitHub CLI docs: https://cli.github.com/manual/
 ```
@@ -115,7 +116,7 @@ Don't fabricate labels that don't exist on the target repo. If a label is missin
 - **Specific over general.** Name files, commands, error messages. "The fetch step" beats "the network operation."
 - **No filler.** Skip "We should consider…", "It would be nice to…". State the change directly.
 - **No retrospectives.** Don't recap the conversation that led to the issue. The issue stands on its own.
-- **Code references over screenshots.** If a screenshot is essential, attach it; otherwise prefer `file:line` pointers.
+- **Code references over screenshots.** If a screenshot is essential, attach it; otherwise prefer `file::symbol` pointers (see [§ References](#7-references)).
 - **No emoji.** Not in titles, not in bodies. (Project-wide convention.)
 
 ## Anti-patterns
