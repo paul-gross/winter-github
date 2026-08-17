@@ -1,12 +1,6 @@
 # GitHub issues
 
-Raise and refine GitHub issues from a winter workspace using a precise, AI-native format. Uses the [`gh`](https://cli.github.com/) CLI to file issues against the appropriate repository.
-
-## Path notation
-
-Files in this extension are addressed with the `winter-github:` prefix — for example, `winter-github:/context/issue-format.md`. Resolve to the on-disk path via the `# Winter Extensions` block in workspace `CLAUDE.md`; the local directory name varies (`./.winter/ext/github/`, `./winter-github/`, etc.).
-
-## Skills and conventions
+Raise and refine GitHub issues from a winter workspace in a precise, AI-native format, via the [`gh`](https://cli.github.com/) CLI.
 
 | Topic | Read when… |
 |-------|------------|
