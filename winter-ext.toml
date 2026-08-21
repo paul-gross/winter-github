@@ -1,3 +1,9 @@
 name = "winter-github"
 prefix = "wg"
 doctor = "scripts/doctor.sh"
+
+# The entry point routes to the two skills and the issue conventions, all of
+# which matter only while a session is working an issue — one routing line
+# carries that, so the conventions load on demand instead of every session.
+description = "GitHub issue tooling — read when filing or refining an issue."
+load = "lazy"
