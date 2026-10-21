@@ -109,7 +109,7 @@ Apply labels that correspond to the metadata block when filing. Standard label s
 
 `type:epic` marks an epic parent — see [epics.md](./epics.md).
 
-Don't fabricate labels that don't exist on the target repo. If a label is missing, file the issue without it and let the user create the label after — or bootstrap the canonical set per [`gh-cli.md`](./gh-cli.md#bootstrapping-the-canonical-label-set).
+Don't fabricate labels outside the canonical set. If a canonical label is missing on the target repo, bootstrap the canonical set per [`gh-cli.md`](./gh-cli.md#bootstrapping-the-canonical-label-set) before filing; file without the label only if the user declines.
 
 ## Writing rules
 
