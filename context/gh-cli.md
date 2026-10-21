@@ -1,6 +1,7 @@
 # GH CLI Notes
 
-Just the things specific to filing issues against GitHub via the `issue` skill. The agent already knows `gh`'s general surface.
+Just the things specific to filing issues against GitHub via the `issue` skill. The agent already knows `gh`'s general
+surface.
 
 ## One-time setup
 
@@ -10,7 +11,8 @@ Interactive (the standard path):
 gh auth login --hostname github.com
 ```
 
-Pick `HTTPS` as the protocol if you don't want to manage SSH keys, and let `gh` upload an OAuth token to the keyring. The flow opens a browser for OAuth.
+Pick `HTTPS` as the protocol if you don't want to manage SSH keys, and let `gh` upload an OAuth token to the keyring.
+The flow opens a browser for OAuth.
 
 Non-interactive (CI, scripts, machine accounts):
 
@@ -18,13 +20,18 @@ Non-interactive (CI, scripts, machine accounts):
 echo "<personal-access-token>" | gh auth login --hostname github.com --with-token
 ```
 
-Generate the token at https://github.com/settings/tokens with the `repo` and `read:org` scopes at minimum. Verify with `gh auth status`.
+Generate the token at https://github.com/settings/tokens with the `repo` and `read:org` scopes at minimum. Verify with
+`gh auth status`.
 
-**Verify with `winter doctor`.** This extension contributes probes that check the `gh` prerequisites for the `issue` skill — the canonical "is my setup correct?" check before filing. The probes live at `scripts/doctor.sh` (registered via `doctor = "scripts/doctor.sh"` in `winter-ext.toml`), which is their single source of truth; reachability is a `warn`-level probe, so a transient network blip won't block the `issue` skill.
+**Verify with `winter doctor`.** This extension contributes probes that check the `gh` prerequisites for the `issue`
+skill — the canonical "is my setup correct?" check before filing. The probes live at `scripts/doctor.sh` (registered via
+`doctor = "scripts/doctor.sh"` in `winter-ext.toml`), which is their single source of truth; reachability is a
+`warn`-level probe, so a transient network blip won't block the `issue` skill.
 
 ## Filing an issue
 
-The recommended invocation — `--body-file` reads from a file to keep multi-line markdown intact without shell-quoting hell:
+The recommended invocation — `--body-file` reads from a file to keep multi-line markdown intact without shell-quoting
+hell:
 
 ```
 gh issue create \
@@ -34,13 +41,16 @@ gh issue create \
   --label "type:feature,complexity:small"
 ```
 
-Labels must already exist on the target repo. `gh issue create --label` rejects any label that isn't defined. **Prefer bootstrapping** the canonical workspace label set when a label is missing rather than silently dropping it (see *Bootstrapping the canonical label set* below). Fall back to dropping the label only if the user declines.
+Labels must already exist on the target repo. `gh issue create --label` rejects any label that isn't defined. **Prefer
+bootstrapping** the canonical workspace label set when a label is missing rather than silently dropping it (see
+*Bootstrapping the canonical label set* below). Fall back to dropping the label only if the user declines.
 
 `gh issue create` returns the issue URL on stdout — capture it for the Step 7 report.
 
 ## Viewing an existing issue
 
-`gh` has a first-class `view` subcommand. Default output is a colored terminal renderer; pass `--json` to get a parseable shape with the body intact:
+`gh` has a first-class `view` subcommand. Default output is a colored terminal renderer; pass `--json` to get a
+parseable shape with the body intact:
 
 ```
 # get one issue's body + metadata
@@ -54,16 +64,34 @@ Use `--json` for any multi-line body — the default human renderer wraps and re
 
 ## Bootstrapping the canonical label set
 
-`workspace:/context/github.md` is the **single source of truth** for the canonical label inventory — names, hex colors, and descriptions. Read the names/colors/descriptions from there; do not fork them here or in any other extension doc.
+This table is the **single source of truth** for the canonical label inventory — names, hex colors, and descriptions. Do
+not fork it into any other doc.
 
-When `gh issue create` rejects a label as undefined, **offer to create the full canonical set** rather than silently dropping. The `gh label create` shape, applied once per label from the workspace inventory:
+| Name                 | Color    | Description                                |
+| -------------------- | -------- | ------------------------------------------ |
+| `type:bug`           | `d73a4a` | Something is broken                        |
+| `type:chore`         | `cccccc` | Maintenance, housekeeping                  |
+| `type:feature`       | `0e8a16` | New capability                             |
+| `type:refactor`      | `1d76db` | Internal restructuring, no behavior change |
+| `type:spike`         | `5319e7` | Time-boxed investigation                   |
+| `type:epic`          | `c77dff` | Parent of a set of child issues            |
+| `complexity:trivial` | `ededed` | Author estimate: trivial                   |
+| `complexity:small`   | `fbca04` | Author estimate: small                     |
+| `complexity:large`   | `e99695` | Author estimate: large                     |
+
+When `gh issue create` rejects a label as undefined, **offer to create the full canonical set** rather than silently
+dropping. The `gh label create` shape, applied once per label from the table above:
 
 <!-- winter-lint:example -->
+
 ```
 gh label create "<name>" --repo <owner>/<name> --color "<hex>" --description "<description>"
 ```
 
-`gh label create` is idempotent only when `--force` is passed — without it, a second run fails with `label already exists`. When bootstrapping into a repo that already has *some* of the canonical labels, prefer creating the missing ones one-by-one rather than blasting the full block with `--force` (which would overwrite colors and descriptions on labels the user may have customized).
+`gh label create` is idempotent only when `--force` is passed — without it, a second run fails with
+`label already exists`. When bootstrapping into a repo that already has *some* of the canonical labels, prefer creating
+the missing ones one-by-one rather than blasting the full block with `--force` (which would overwrite colors and
+descriptions on labels the user may have customized).
 
 ## Re-labeling or editing an existing issue
 
@@ -87,7 +115,8 @@ Confirm with the user before mutating an existing issue.
 
 ## Sub-issues (epic parent/child links)
 
-GitHub's sub-issues feature makes an epic the **parent issue** of each child. This `gh` version (2.45) has no native `sub-issue` subcommand, so drive it through the REST API. The epic convention is at [`epics.md`](./epics.md).
+GitHub's sub-issues feature makes an epic the **parent issue** of each child. This `gh` version (2.45) has no native
+`sub-issue` subcommand, so drive it through the REST API. The epic convention is at [`epics.md`](./epics.md).
 
 The link is keyed by the child's **REST database `id`**, not its issue number. Resolve it first:
 
@@ -96,7 +125,8 @@ The link is keyed by the child's **REST database `id`**, not its issue number. R
 gh api repos/<owner>/<name>/issues/<child-N> --jq .id
 ```
 
-**Link a child under an epic** — the `sub_issue_id` field must be a typed integer, so pass it with `-F` (not `-f`, which would send a string and fail `422 not of type integer`):
+**Link a child under an epic** — the `sub_issue_id` field must be a typed integer, so pass it with `-F` (not `-f`, which
+would send a string and fail `422 not of type integer`):
 
 ```
 gh api -X POST repos/<owner>/<name>/issues/<epic-N>/sub_issues -F sub_issue_id=<child-rest-id>
@@ -114,7 +144,9 @@ gh api repos/<owner>/<name>/issues/<epic-N>/sub_issues --jq '.[] | {number, titl
 gh api -X DELETE repos/<owner>/<name>/issues/<epic-N>/sub_issue -F sub_issue_id=<child-rest-id>
 ```
 
-Both endpoints operate within a single repository — a sub-issue link cannot cross repos, which is why an epic and its children share one repo (see [epics.md](./epics.md)). Confirm with the user before linking or unlinking. A child may have at most one parent; linking a child that already has a different parent moves it.
+Both endpoints operate within a single repository — a sub-issue link cannot cross repos, which is why an epic and its
+children share one repo (see [epics.md](./epics.md)). Confirm with the user before linking or unlinking. A child may
+have at most one parent; linking a child that already has a different parent moves it.
 
 ## Comment processing and reactions
 
@@ -136,13 +168,15 @@ gh api repos/<owner>/<name>/issues/<N>/comments --paginate
 
 Returns a JSON array; each element has `id`, `body`, and `user.login`.
 
-**Read a comment's reactions** — use `--paginate` so a comment with many reactions is never truncated (idempotency in T7 depends on this check being complete):
+**Read a comment's reactions** — use `--paginate` so a comment with many reactions is never truncated (idempotency in T7
+depends on this check being complete):
 
 ```
 gh api repos/<owner>/<name>/issues/comments/<comment-id>/reactions --paginate
 ```
 
-A comment is already processed when the array contains an entry where `content == "eyes"` AND `user.login` matches the running identity. A different user's `:eyes:` does NOT count.
+A comment is already processed when the array contains an entry where `content == "eyes"` AND `user.login` matches the
+running identity. A different user's `:eyes:` does NOT count.
 
 **Add the `:eyes:` reaction** — the plain form works without any preview Accept-header:
 
@@ -160,7 +194,8 @@ gh api -X DELETE repos/<owner>/<name>/issues/comments/<comment-id>
 
 ## GitHub-API fallback
 
-For anything `gh` doesn't expose directly — bulk operations, advanced project-board queries, repo settings the CLI hasn't caught up to — use `gh api` with the same auth context. No separate token plumbing required.
+For anything `gh` doesn't expose directly — bulk operations, advanced project-board queries, repo settings the CLI
+hasn't caught up to — use `gh api` with the same auth context. No separate token plumbing required.
 
 ```
 # raw GET — list issues with custom field projection the CLI doesn't offer
@@ -179,20 +214,24 @@ gh api repos/<owner>/<name>/issues --paginate \
 Common cases that *do* warrant the API fallback today:
 
 - Bulk relabeling across many issues — loop over `gh api repos/.../issues?labels=old-label --paginate` and `PATCH` each.
-- Listing or mutating issue *comments* by ID — `gh issue comment` only appends; comment edits/deletes go through `repos/<owner>/<name>/issues/comments/<comment-id>`.
-- Repo-level settings (default branch, label color migrations across many repos) — `gh api repos/<owner>/<name> -X PATCH`.
+- Listing or mutating issue *comments* by ID — `gh issue comment` only appends; comment edits/deletes go through
+  `repos/<owner>/<name>/issues/comments/<comment-id>`.
+- Repo-level settings (default branch, label color migrations across many repos) —
+  `gh api repos/<owner>/<name> -X PATCH`.
 
 Confirm with the user before any mutation through the API fallback.
 
 ## GitHub-specific failure modes
 
-If the `issue` skill fails, run `winter doctor` first — the `gh github.com auth` and `api.github.com reachable` probes catch standing prerequisite breakage. The table below covers failures that only surface at file-time (token expired mid-session, secondary rate limits, label-set drift, repo doesn't exist).
+If the `issue` skill fails, run `winter doctor` first — the `gh github.com auth` and `api.github.com reachable` probes
+catch standing prerequisite breakage. The table below covers failures that only surface at file-time (token expired
+mid-session, secondary rate limits, label-set drift, repo doesn't exist).
 
-| Error | Cause | Recovery |
-|-------|-------|----------|
-| `Could not resolve to a Repository` / `HTTP 404` on issue create | Repo doesn't exist or you lack access | Ask user to create it or correct the target. |
-| `'<x>' is not a valid label` | Label not yet defined on the repo | Drop the label and file without it; tell user to add the label after. Prefer bootstrapping the canonical set. |
-| `HTTP 401: Bad credentials` | Token expired or `gh auth login` not set up for `github.com` | Point user at the setup section above. |
-| `HTTP 403: API rate limit exceeded` / `secondary rate limit triggered` | Burst of API calls within a short window | Wait the duration `gh` reports (`Retry-After` header for primary limits; ~60s for secondary). Don't retry blindly. |
-| `HTTP 422: Validation Failed` on label create | Label already exists | Skip it; the canonical set is convergent, not exhaustive. |
-| `HTTP 5xx` from `api.github.com` | GitHub under load or incident | Check `gh issue list --repo <target> --limit 5` to see whether the issue was actually created before retrying. |
+| Error                                                                  | Cause                                                        | Recovery                                                                                                           |
+| ---------------------------------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| `Could not resolve to a Repository` / `HTTP 404` on issue create       | Repo doesn't exist or you lack access                        | Ask user to create it or correct the target.                                                                       |
+| `'<x>' is not a valid label`                                           | Label not yet defined on the repo                            | Drop the label and file without it; tell user to add the label after. Prefer bootstrapping the canonical set.      |
+| `HTTP 401: Bad credentials`                                            | Token expired or `gh auth login` not set up for `github.com` | Point user at the setup section above.                                                                             |
+| `HTTP 403: API rate limit exceeded` / `secondary rate limit triggered` | Burst of API calls within a short window                     | Wait the duration `gh` reports (`Retry-After` header for primary limits; ~60s for secondary). Don't retry blindly. |
+| `HTTP 422: Validation Failed` on label create                          | Label already exists                                         | Skip it; the canonical set is convergent, not exhaustive.                                                          |
+| `HTTP 5xx` from `api.github.com`                                       | GitHub under load or incident                                | Check `gh issue list --repo <target> --limit 5` to see whether the issue was actually created before retrying.     |
