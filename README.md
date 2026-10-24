@@ -41,4 +41,4 @@ See [`index.md`](./index.md) for the full layout and [`context/issue-format.md`]
 
 ## License
 
-MIT.
+Source-available under the Functional Source License 1.1 (FSL-1.1-ALv2). Each release converts to Apache License 2.0 two years after it ships. See LICENSE.
